@@ -4,6 +4,7 @@
 
 - Create the resources in the following order:
 
+```
 oc apply -f namespace.yaml
 oc apply -f serviceaccount.yaml
 oc apply -f clusterrole.yaml
@@ -14,4 +15,4 @@ oc apply -f vector-agent-conf.yaml
 oc apply -f deployment.yaml
 oc apply -f service.yaml
 oc apply -f daemonset.yaml
-
+```
