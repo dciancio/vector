@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: vector-agent
+  name: vector-agent
+  namespace: openshift-osd-logforward
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      name: vector-agent
+  template:
+    metadata:
+      annotations:
+        name: vector-agent
+      creationTimestamp: null
+      labels:
+        name: vector-agent
+    spec:
+      containers:
+      - env:
+        image: quay.io/dciancio/vector
+        imagePullPolicy: IfNotPresent
+        name: vector
+        ports:
+        - containerPort: 8089
+          protocol: TCP
+        resources: {}
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /etc/localtime
+          name: localtime
+          readOnly: true
+        - mountPath: /etc/vector/vector.toml
+          name: vector-agent-conf
+          readOnly: true
+          subPath: vector.toml
+        - mountPath: /var/lib/vector
+          name: filebufferstorage
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: vector
+      serviceAccountName: vector
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/disk-pressure
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/memory-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/pid-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/unschedulable
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 272
+          name: vector-agent-conf
+        name: vector-agent-conf
+      - hostPath:
+          path: /var/log
+          type: Directory
+        name: varlog
+      - hostPath:
+          path: /etc/localtime
+          type: File
+        name: localtime
+      - hostPath:
+          path: /var/lib/vector
+          type: DirectoryOrCreate
+        name: filebufferstorage
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate

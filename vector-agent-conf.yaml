@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector-agent-conf
+  namespace: openshift-osd-logforward
+data:
+  vector.toml: |2+
+
+    data_dir                                = "/var/lib/vector"
+
+
+    [api]
+      enabled                               = true
+      address                               = "127.0.0.1:8686"
+      playground                            = true
+
+
+    [sources.audit_logs]
+      type                                  = "file"
+      ignore_older                          = 600
+      include                               = ["/var/log/*apiserver/audit.log"]
+
+
+    [sources.kubernetes_logs]
+      type                                  = "kubernetes_logs"
+      exclude_paths_glob_patterns           = ["**/*vector*/**"]
+
+
+    [sinks.vector]
+      type                                  = "vector"
+      address                               = "vector-aggregator:9000"
+      inputs                                = ["audit_logs", "kubernetes_logs"]
+
