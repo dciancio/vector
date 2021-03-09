@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vector-aggregator-conf
-  namespace: openshift-osd-logforward
+  namespace: vector
 data:
   vector.toml: |2+
 

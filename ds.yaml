@@ -1,0 +1,260 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"app":"vector-agent"},"name":"vector-agent","namespace":"vector"},"spec":{"revisionHistoryLimit":10,"selector":{"matchLabels":{"name":"vector-agent"}},"template":{"metadata":{"annotations":{"name":"vector-agent"},"creationTimestamp":null,"labels":{"name":"vector-agent"}},"spec":{"containers":[{"env":[{"name":"VECTOR_SELF_NODE_NAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"spec.nodeName"}}},{"name":"NODE_NAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"spec.nodeName"}}}],"image":"quay.io/dciancio/vector","imagePullPolicy":"IfNotPresent","name":"vector","ports":[{"containerPort":8089,"protocol":"TCP"}],"resources":{},"securityContext":{"privileged":true,"runAsUser":0},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/log","name":"varlog"},{"mountPath":"/etc/localtime","name":"localtime","readOnly":true},{"mountPath":"/etc/vector/vector.toml","name":"vector-agent-conf","readOnly":true,"subPath":"vector.toml"},{"mountPath":"/var/lib/vector","name":"filebufferstorage"}]}],"dnsPolicy":"ClusterFirst","nodeSelector":{"beta.kubernetes.io/os":"linux"},"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"serviceAccount":"vector","serviceAccountName":"vector","terminationGracePeriodSeconds":10,"tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/master","operator":"Exists"},{"effect":"NoSchedule","key":"node.kubernetes.io/disk-pressure","operator":"Exists"},{"effect":"NoExecute","key":"node.kubernetes.io/not-ready","operator":"Exists"},{"effect":"NoExecute","key":"node.kubernetes.io/unreachable","operator":"Exists"},{"effect":"NoSchedule","key":"node.kubernetes.io/memory-pressure","operator":"Exists"},{"effect":"NoSchedule","key":"node.kubernetes.io/pid-pressure","operator":"Exists"},{"effect":"NoSchedule","key":"node.kubernetes.io/unschedulable","operator":"Exists"}],"volumes":[{"configMap":{"defaultMode":272,"name":"vector-agent-conf"},"name":"vector-agent-conf"},{"hostPath":{"path":"/var/log","type":"Directory"},"name":"varlog"},{"hostPath":{"path":"/etc/localtime","type":"File"},"name":"localtime"},{"hostPath":{"path":"/var/lib/vector","type":"DirectoryOrCreate"},"name":"filebufferstorage"}]}},"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"RollingUpdate"}}}
+  creationTimestamp: "2021-03-08T23:50:07Z"
+  generation: 2
+  labels:
+    app: vector-agent
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:deprecated.daemonset.template.generation: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:revisionHistoryLimit: {}
+        f:selector:
+          f:matchLabels:
+            .: {}
+            f:name: {}
+        f:template:
+          f:metadata:
+            f:annotations:
+              .: {}
+              f:name: {}
+            f:labels:
+              .: {}
+              f:name: {}
+          f:spec:
+            f:containers:
+              k:{"name":"vector"}:
+                .: {}
+                f:env:
+                  .: {}
+                  k:{"name":"VECTOR_SELF_NODE_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:fieldRef:
+                        .: {}
+                        f:apiVersion: {}
+                        f:fieldPath: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:ports:
+                  .: {}
+                  k:{"containerPort":8089,"protocol":"TCP"}:
+                    .: {}
+                    f:containerPort: {}
+                    f:protocol: {}
+                f:resources: {}
+                f:securityContext:
+                  .: {}
+                  f:privileged: {}
+                  f:runAsUser: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+                f:volumeMounts:
+                  .: {}
+                  k:{"mountPath":"/etc/localtime"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                    f:readOnly: {}
+                  k:{"mountPath":"/etc/vector/vector.toml"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                    f:readOnly: {}
+                    f:subPath: {}
+                  k:{"mountPath":"/var/lib/vector"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+                  k:{"mountPath":"/var/log"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+            f:dnsPolicy: {}
+            f:nodeSelector:
+              .: {}
+              f:beta.kubernetes.io/os: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:serviceAccount: {}
+            f:serviceAccountName: {}
+            f:terminationGracePeriodSeconds: {}
+            f:tolerations: {}
+            f:volumes:
+              .: {}
+              k:{"name":"filebufferstorage"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+              k:{"name":"localtime"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+              k:{"name":"varlog"}:
+                .: {}
+                f:hostPath:
+                  .: {}
+                  f:path: {}
+                  f:type: {}
+                f:name: {}
+              k:{"name":"vector-agent-conf"}:
+                .: {}
+                f:configMap:
+                  .: {}
+                  f:defaultMode: {}
+                  f:name: {}
+                f:name: {}
+        f:updateStrategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxUnavailable: {}
+          f:type: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2021-03-08T23:50:07Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:currentNumberScheduled: {}
+        f:desiredNumberScheduled: {}
+        f:numberAvailable: {}
+        f:numberReady: {}
+        f:observedGeneration: {}
+        f:updatedNumberScheduled: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2021-03-08T23:53:31Z"
+  name: vector-agent
+  namespace: vector
+  resourceVersion: "230852360"
+  selfLink: /apis/apps/v1/namespaces/vector/daemonsets/vector-agent
+  uid: 29563086-83e9-4823-89a5-161f2c7388d5
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      name: vector-agent
+  template:
+    metadata:
+      annotations:
+        name: vector-agent
+      creationTimestamp: null
+      labels:
+        name: vector-agent
+    spec:
+      containers:
+      - env:
+        - name: VECTOR_SELF_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: quay.io/dciancio/vector
+        imagePullPolicy: IfNotPresent
+        name: vector
+        ports:
+        - containerPort: 8089
+          protocol: TCP
+        resources: {}
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /etc/localtime
+          name: localtime
+          readOnly: true
+        - mountPath: /etc/vector/vector.toml
+          name: vector-agent-conf
+          readOnly: true
+          subPath: vector.toml
+        - mountPath: /var/lib/vector
+          name: filebufferstorage
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: vector
+      serviceAccountName: vector
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/disk-pressure
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/memory-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/pid-pressure
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/unschedulable
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 272
+          name: vector-agent-conf
+        name: vector-agent-conf
+      - hostPath:
+          path: /var/log
+          type: Directory
+        name: varlog
+      - hostPath:
+          path: /etc/localtime
+          type: File
+        name: localtime
+      - hostPath:
+          path: /var/lib/vector
+          type: DirectoryOrCreate
+        name: filebufferstorage
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 6
+  desiredNumberScheduled: 6
+  numberAvailable: 6
+  numberMisscheduled: 0
+  numberReady: 6
+  observedGeneration: 2
+  updatedNumberScheduled: 4

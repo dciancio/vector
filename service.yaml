@@ -4,7 +4,7 @@ metadata:
   labels:
     app: vector-aggregator
   name: vector-aggregator
-  namespace: openshift-osd-logforward
+  namespace: vector
 spec:
   ports:
   - port: 9000

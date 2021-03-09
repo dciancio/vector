@@ -24,10 +24,10 @@ seLinuxContext:
 supplementalGroups:
   type: RunAsAny
 users:
-- system:serviceaccount:openshift-osd-logforward:builder
-- system:serviceaccount:openshift-osd-logforward:default
-- system:serviceaccount:openshift-osd-logforward:deployer
-- system:serviceaccount:openshift-osd-logforward:vector
+- system:serviceaccount:vector:builder
+- system:serviceaccount:vector:default
+- system:serviceaccount:vector:deployer
+- system:serviceaccount:vector:vector
 volumes:
 - configMap
 - downwardAPI
